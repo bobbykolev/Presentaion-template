@@ -162,12 +162,13 @@
     };
     
     // CHECK SUPPORT
-    var body = document.body;
-    var header = document.getElementById('main-title');
-    var stepCounter = document.getElementById('step-counter');
+    var body = document.body,
+        menu = document.getElementById('header'),
+        header = document.getElementById('main-title'),
+        stepCounter = document.getElementById('step-counter'),
     
-    var ua = navigator.userAgent.toLowerCase();
-    var impressSupported = 
+        ua = navigator.userAgent.toLowerCase(),
+        impressSupported = 
                           // browser should support CSS 3D transtorms 
                            ( pfx("perspective") !== null ) &&
                            
@@ -226,7 +227,8 @@
                 init: empty,
                 goto: empty,
                 prev: empty,
-                next: empty
+                next: empty,
+                toggleNav: empty
             };
         }
         
@@ -569,6 +571,14 @@
             
             return goto(next);
         };
+
+        var toggleNav = function () {
+            if (menu.style.visibility == 'hidden') {
+                css(menu,{'visibility': 'visible'});
+            } else {
+                css(menu,{'visibility': 'hidden'});
+            }
+        };
         
         // Adding some useful classes to step elements.
         //
@@ -641,7 +651,8 @@
             init: init,
             goto: goto,
             next: next,
-            prev: prev
+            prev: prev,
+            toggleNav: toggleNav
         });
 
     };
@@ -708,8 +719,12 @@
         //   as another way to moving to next step... And yes, I know that for the sake of
         //   consistency I should add [shift+tab] as opposite action...
         document.addEventListener("keyup", function ( event ) {
-            if ( event.keyCode === 9 || ( event.keyCode >= 32 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40) ) {
+            if ( event.keyCode === 9 || ( event.keyCode >= 32 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40) 
+                || event.keyCode === 27) {
                 switch( event.keyCode ) {
+                    case 27: // esc
+                            api.toggleNav();
+                            break;
                     case 33: // pg up
                     case 37: // left
                     case 38: // up
