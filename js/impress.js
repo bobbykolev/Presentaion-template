@@ -386,7 +386,7 @@
             css(canvas, rootStyles);
             
             body.classList.remove("impress-disabled");
-            //body.classList.add("impress-enabled");
+            body.classList.add("impress-enabled");
             
             // get and init steps
             steps = $$(".step", root);
